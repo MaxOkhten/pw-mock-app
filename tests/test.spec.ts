@@ -32,3 +32,24 @@ test("Locator syntax rules", async({page}) => {
     page.locator(':text("Using")')
 
 })
+
+test("User facing locators", async({page}) => {
+    //by role
+    await page.getByRole("textbox", {name: "Email"}).first().click()
+    await page.getByRole("button", {name: "Sign in"}).first().click()
+
+    //by label
+    await page.getByLabel("Email").first().click()
+
+    //by placeholder
+    await page.getByPlaceholder("Password").first().click()
+
+    //by text
+    await page.getByText("Using the Grid").click()
+
+    //by title
+    await page.getByTitle("IoT Dashboard").click()
+
+    //by test id (not truly user facing)
+    await page.getByTestId("")
+})
