@@ -66,3 +66,20 @@ test("Locating child elements", async({page}) => {
     //by index of element - the least preferable and unstable
     await page.locator("nb-card").nth(3).getByRole("button").click()
 })
+
+test("Locating parent elements", async({page}) => {
+    //filtering by text
+    await page.locator("nb-card", {hasText: "Using the Grid"}).getByRole("textbox", {name: "Email"}).first().click()
+    await page.locator("nb-card").filter({hasText: "Basic form"}).getByRole("textbox", {name: "Email"}).first().click()
+
+    //filtering by locator
+    await page.locator("nb-card", {has: page.locator("#inputEmail1")}).getByRole("textbox", {name: "Email"}).first().click()
+    await page.locator("nb-card", {has: page.locator(".status-danger")}).getByRole("textbox", {name: "Email"}).first().click()
+
+    //by chaining filters
+    await page.locator("nb-card").filter({has: page.locator("nb-checkbox")}).filter({hasText: "Sign in"})
+        .getByRole("textbox", {name: "Email"}).first().click()
+    
+    //go one level up using xPath
+    await page.locator(':text-is("Using the Grid")').locator("..").getByRole("textbox", {name: "Email"}).first().click()
+})
