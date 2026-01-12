@@ -98,3 +98,26 @@ test("Reusing locators", async({page}) => {
     //assertion
     await expect(emailField).toHaveValue("hello@gmail.com")
 })
+
+test("Extracting values", async({page}) => {
+    //single text value
+    const basicForm = page.locator("nb-card").filter({hasText: "Basic form"})
+    const buttonText = await basicForm.locator("button").textContent()
+    
+    expect(buttonText).toEqual("Submit")
+
+    //all text values
+    const allRadioButtons = await page.locator("nb-radio").allTextContents()
+    expect(allRadioButtons).toContain("Option 2")
+
+    //input value
+    const emailField = basicForm.getByRole("textbox", {name: "Email"})
+    await emailField.fill("hello@gmail.com")
+
+    const emailValue = await emailField.inputValue()
+    expect(emailValue).toEqual("hello@gmail.com")
+
+    //validate placeholder
+    const placeholderValue = await emailField.getAttribute("placeholder")
+    expect(placeholderValue).toEqual("Email")
+})
