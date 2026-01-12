@@ -1,4 +1,4 @@
-import {test} from "@playwright/test"
+import {test, expect} from "@playwright/test"
 
 test.beforeEach(async({page}) => {
     await page.goto("http://localhost:4200/")
@@ -69,17 +69,32 @@ test("Locating child elements", async({page}) => {
 
 test("Locating parent elements", async({page}) => {
     //filtering by text
-    await page.locator("nb-card", {hasText: "Using the Grid"}).getByRole("textbox", {name: "Email"}).first().click()
-    await page.locator("nb-card").filter({hasText: "Basic form"}).getByRole("textbox", {name: "Email"}).first().click()
+    await page.locator("nb-card", {hasText: "Using the Grid"}).getByRole("textbox", {name: "Email"}).click()
+    await page.locator("nb-card").filter({hasText: "Basic form"}).getByRole("textbox", {name: "Email"}).click()
 
     //filtering by locator
-    await page.locator("nb-card", {has: page.locator("#inputEmail1")}).getByRole("textbox", {name: "Email"}).first().click()
-    await page.locator("nb-card", {has: page.locator(".status-danger")}).getByRole("textbox", {name: "Email"}).first().click()
+    await page.locator("nb-card", {has: page.locator("#inputEmail1")}).getByRole("textbox", {name: "Email"}).click()
+    await page.locator("nb-card", {has: page.locator(".status-danger")}).getByRole("textbox", {name: "Email"}).click()
 
     //by chaining filters
     await page.locator("nb-card").filter({has: page.locator("nb-checkbox")}).filter({hasText: "Sign in"})
         .getByRole("textbox", {name: "Email"}).first().click()
     
     //go one level up using xPath
-    await page.locator(':text-is("Using the Grid")').locator("..").getByRole("textbox", {name: "Email"}).first().click()
+    await page.locator(':text-is("Using the Grid")').locator("..").getByRole("textbox", {name: "Email"}).click()
+})
+
+test("Reusing locators", async({page}) => {
+    //extract locator into a constant
+    const basicForm = page.locator("nb-card").filter({hasText: "Basic form"})
+    //second level of abstraction
+    const emailField = basicForm.getByRole("textbox", {name: "Email"})
+
+    await emailField.fill("hello@gmail.com")
+    await basicForm.getByRole("textbox", {name: "Password"}).fill("123456")
+    await basicForm.locator("nb-checkbox").click()
+    await basicForm.getByRole("button").click()
+
+    //assertion
+    await expect(emailField).toHaveValue("hello@gmail.com")
 })
