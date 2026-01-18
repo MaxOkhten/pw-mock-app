@@ -1,4 +1,4 @@
-### Ngx-Admin Angular 14 application from akveo.com
+### Ngx-Admin Angular 14 application
 
 This is modified and more lightweight version of original application to practice UI Automation with Playwright.
 
