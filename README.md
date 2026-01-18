@@ -6,10 +6,10 @@ The original repo is here: https://github.com/akveo/ngx-admin
 
 
 Install: `npm install --force`
+
 Run: `npm start`
 
-
-PW Cheatsheet
+### Playwright 
 
 `npx playwright test` - run tests
 `npx playwright test --headed` - run tests headed
