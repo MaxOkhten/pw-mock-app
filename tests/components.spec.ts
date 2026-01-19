@@ -50,4 +50,27 @@ test.describe('Form Layouts Test Suite', () => {
     })
 })
 
+test('checkboxes', async({page}) => {
+    await page.getByText('Modal & Overlays').click()
+    await page.getByText('Toastr').click()
+
+
+    await page.getByRole('checkbox', {name: "Hide on click"}).check({force: true})
+    await page.waitForTimeout(3000)
+    await page.getByRole('checkbox', {name: "Hide on click"}).uncheck({force: true})
+    await page.getByRole('checkbox', {name: "Prevent arising of duplicate toast"}).check({force: true})
+
+    //check all checkboxes on the page
+    const allCheckboxes = page.getByRole('checkbox')
+    for(const checkbox of await allCheckboxes.all()) {
+        await checkbox.check({force: true})
+        expect(await checkbox.isChecked()).toBeTruthy()
+    }
+
+    //uncheck all checkboxes on the page
+    for(const checkbox of await allCheckboxes.all()) {
+        await checkbox.uncheck({force: true})
+        expect(await checkbox.isChecked()).toBeFalsy()
+    }
+})
     
