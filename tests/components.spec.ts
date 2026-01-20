@@ -124,3 +124,21 @@ test('tooltips', async({page}) => {
     //validate the tooltip
     const toolTip = await page.locator('nb-tooltip').textContent()
 })
+
+test('dialog box', async({page}) => {
+    //navigate to the tooltip
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart Table').click()
+
+    //accept the dialog box
+    page.on('dialog', dialog => {
+        expect(dialog.message()).toEqual('Are you sure you want to delete?')
+        dialog.accept()
+    })
+
+    //identify the row and delete
+    await page.getByRole('table').locator('tr', {hasText: 'twitter@outlook.com'}).locator('.nb-trash').click()
+    
+    //check that the row is deleted
+    await expect(page.locator('table tr').nth(2)).not.toContainText('twitter@outlook.com')
+})
