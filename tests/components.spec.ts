@@ -142,3 +142,33 @@ test('dialog box', async({page}) => {
     //check that the row is deleted
     await expect(page.locator('table tr').nth(2)).not.toContainText('twitter@outlook.com')
 })
+
+test('tables', async({page}) => {
+    //navigate to the tooltip
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart Table').click()
+
+    // 1) get the row by text in the row
+    const targetRow = page.getByRole('row', {name: 'twitter@outlook.com'})
+    await targetRow.locator('.nb-edit').click()
+
+    //edit cell
+    await page.locator('input-editor').getByPlaceholder('Age').clear()
+    await page.locator('input-editor').getByPlaceholder('Age').fill('123')
+    await page.locator('.nb-checkmark').click()
+
+    // 2) select column by id cell
+    //navigate the pages of the table
+    await page.locator('.ng2-smart-pagination-nav').getByText('2').click()
+
+    //find row -> get 2 rows -> filter them by column to find what we need
+    const targetID = page.getByRole('row', {name: '11'}).filter({has: page.locator('td').nth(1).getByText('11')})
+    await targetID.locator('.nb-edit').click()
+
+    await page.locator('input-editor').getByPlaceholder('E-mail').clear()
+    await page.locator('input-editor').getByPlaceholder('E-mail').fill('hello@hello.com')
+    await page.locator('.nb-checkmark').click()
+
+    await expect(targetID.locator('td').nth(5)).toHaveText('hello@hello.com')
+
+})
