@@ -194,3 +194,15 @@ test('tables', async({page}) => {
         }
     }
 })
+
+test('datepicker', async({page}) => {
+    await page.getByText('Forms').click()
+    await page.getByText('Datepicker').click()
+
+    const calendarLocator = page.getByPlaceholder('Form Picker')
+    await calendarLocator.click()
+
+    //select only the days of the current month by the correct selector
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', {exact: true}).click()
+    await expect(calendarLocator).toHaveValue('Jan 1, 2026')
+})
