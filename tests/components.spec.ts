@@ -205,4 +205,29 @@ test('datepicker', async({page}) => {
     //select only the days of the current month by the correct selector
     await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', {exact: true}).click()
     await expect(calendarLocator).toHaveValue('Jan 1, 2026')
+
+    //use dynamic data to fill the date
+    let date = new Date()
+    date.setDate(date.getDate() + 200)
+
+    const expectedDate = date.getDate().toString()
+    const expectedMonthShort = date.toLocaleString('En-US', {month: 'short'})
+    const expectedMonthLong = date.toLocaleString('En-US', {month: 'long'})
+    const expectedYear = date.getFullYear()
+
+    await calendarLocator.click()
+
+    //get text in current date picker selector
+    let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+    const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`
+
+    //check if the displayed mo/year does not include the expected mo/year -> click on right button
+    while(!calendarMonthAndYear.includes(expectedMonthAndYear)) {
+        await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click()
+        //after click left check if the date is correct
+        calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent()
+    }
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
+    await expect(calendarLocator).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
 })
