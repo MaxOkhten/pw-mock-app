@@ -171,4 +171,26 @@ test('tables', async({page}) => {
 
     await expect(targetID.locator('td').nth(5)).toHaveText('hello@hello.com')
 
+
+    // 3) loop through the table using filters of the table
+    
+    const ages = ["20", "30", "40", "200"];
+
+    for (let age of ages) {
+        await page.locator('input-filter').getByPlaceholder('Age').clear();
+        await page.locator('input-filter').getByPlaceholder('Age').fill(age);
+        await page.waitForTimeout(500)
+        const ageRows = page.locator('tbody tr')
+
+        for (let row of await ageRows.all()) {
+            const cellValue = await row.locator('td').last().textContent()
+            
+            if(age === '200') {
+                expect(page.getByRole('table').textContent()).toContain('No data found')
+            } else {
+                expect(cellValue).toEqual(age)
+            }
+
+        }
+    }
 })
