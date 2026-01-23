@@ -185,8 +185,8 @@ test('tables', async({page}) => {
         for (let row of await ageRows.all()) {
             const cellValue = await row.locator('td').last().textContent()
             
-            if(age === '200') {
-                expect(page.getByRole('table').textContent()).toContain('No data found')
+            if(age == '200') {
+                expect(await page.getByRole('table').textContent()).toContain('No data found')
             } else {
                 expect(cellValue).toEqual(age)
             }
