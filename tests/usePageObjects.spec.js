@@ -1,5 +1,6 @@
 import {test, expect} from "@playwright/test"
 import {NavigationPage} from "../page-objects/navigationPage"
+import {FormLayoutsPage} from "../page-objects/formLayoutsPage"
 
 test.beforeEach(async({page}) => {
     await page.goto("http://localhost:4200/")
@@ -13,4 +14,12 @@ test("Go to form page", async({page}) => {
     await navigateTo.smartTablePage()
     await navigateTo.toastrPage()
     await navigateTo.tooltipPage()
+})
+
+test("Paramethrized methods", async({page}) => {
+    const navigateTo = new NavigationPage(page)
+    const onFormLayoutsPage = new FormLayoutsPage(page)
+
+    await navigateTo.formLayoutsPage()
+    await onFormLayoutsPage.submitUsingTheGridFormByCredentials('hello@hello.com', 'P@s$w0rD', 'Option 1')
 })
