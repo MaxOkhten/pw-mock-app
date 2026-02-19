@@ -21,5 +21,6 @@ test("Paramethrized methods", async({page}) => {
     const onFormLayoutsPage = new FormLayoutsPage(page)
 
     await navigateTo.formLayoutsPage()
-    await onFormLayoutsPage.submitUsingTheGridFormByCredentials('hello@hello.com', 'P@s$w0rD', 'Option 1')
+    await onFormLayoutsPage.submitUsingTheGridForm('hello@hello.com', 'P@s$w0rD', 'Option 1')
+    await onFormLayoutsPage.submitInlineForm('Mister X', "mister@mister.com", true)
 })
