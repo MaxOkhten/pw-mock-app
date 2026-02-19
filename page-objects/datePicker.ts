@@ -8,10 +8,27 @@ export class DatepickerPage {
     }
 
     async selectCommonDatepickerFromToday(daysFromToday: number) {
-
         const calendarLocator = this.page.getByPlaceholder('Form Picker')
         await calendarLocator.click()
+        const dateToAssert = await this.selectDateInCalendar(daysFromToday)
   
+        await expect(calendarLocator).toHaveValue(dateToAssert)
+    }
+
+    async selectDatepickerWithRangeFromToday(startDaysFromToday: number, endDaysFromToday: number) {
+        const calendarLocator = this.page.getByPlaceholder('Range Picker')
+        await calendarLocator.click()
+
+        const startDateToAssert = await this.selectDateInCalendar(startDaysFromToday)
+        const endDateToAssert = await this.selectDateInCalendar(endDaysFromToday)
+
+        const dateToAssert = `${startDateToAssert} - ${endDateToAssert}`
+        await expect(calendarLocator).toHaveValue(dateToAssert)
+
+    }
+
+    //reusable date selector
+    private async selectDateInCalendar(daysFromToday: number) {
         let date = new Date()
         date.setDate(date.getDate() + daysFromToday)
     
@@ -19,8 +36,6 @@ export class DatepickerPage {
         const expectedMonthShort = date.toLocaleString('En-US', {month: 'short'})
         const expectedMonthLong = date.toLocaleString('En-US', {month: 'long'})
         const expectedYear = date.getFullYear()
-    
-        await calendarLocator.click()
     
         let calendarMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent()
         const expectedMonthAndYear = `${expectedMonthLong} ${expectedYear}`
@@ -30,7 +45,8 @@ export class DatepickerPage {
             calendarMonthAndYear = await this.page.locator('nb-calendar-view-mode').textContent()
         }
     
-        await this.page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, {exact: true}).click()
-        await expect(calendarLocator).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
+        await this.page.locator('.day-cell.ng-star-inserted').getByText(expectedDate, {exact: true}).click()
+
+        return `${expectedMonthShort} ${expectedDate}, ${expectedYear}`
     }
 }
