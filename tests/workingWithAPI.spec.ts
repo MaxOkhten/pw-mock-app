@@ -27,7 +27,7 @@ test.beforeEach(async ({page}) => {
     await page.waitForTimeout(500) //important to wait to intercept
 })
 
-test("has title", async ({page}) => {
+test("has titlee", async ({page}) => {
     await expect(page.locator('.navbar-brand')).toHaveText('conduit');
     await expect(page.locator('app-article-list h1').first()).toContainText("Test title");
     await expect(page.locator('app-article-list p').first()).toContainText("Some generic description");
