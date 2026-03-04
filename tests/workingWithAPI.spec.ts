@@ -12,7 +12,9 @@ test.beforeEach(async ({page}) => {
 
     await page.goto('https://conduit.bondaracademy.com/');
     await page.getByText('Sign in').click();
-    //await page.getByRole('textbox', {name: "Email"}).fill()
+    await page.getByRole('textbox', {name: "Email"}).fill('maxx@google.com');
+    await page.getByRole('textbox', {name: "Password"}).fill('maxxmaxx');
+    await page.getByRole('button').click()
     //await page.waitForTimeout(500) //important to wait to intercept
 })
 
@@ -57,6 +59,8 @@ test ('delete article', async({page, request}) => {
     expect(articleResponse.status()).toEqual(201);
 
     await page.getByText('GLobal Feed').click();
-    await page.getByText('Article from request');
+    await page.getByText('Article from request').click();
     await page.getByRole('button', {name: "Delete Article"}).first().click()
+
+    await expect(page.locator('app-article-list h1').first()).not.toContainText("Article from request");
 })
