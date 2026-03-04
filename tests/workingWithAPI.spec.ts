@@ -1,32 +1,20 @@
 import { test, expect, request} from "@playwright/test";
-//import tags from '../test-data/tags.json';
+import tags from '../test-data/tags.json';
 
-// test.beforeEach(async ({page}) => {
-//     //always configure mocks before the browser makes a call to the api
-//     await page.route('https://*/**/api/tags', async route => {
+test.beforeEach(async ({page}) => {
+    //always configure mocks before the browser makes a call to the api
+    await page.route('https://*/**/api/tags', async route => {
 
-//         await route.fulfill({
-//             body: JSON.stringify(tags)
-//         })
-//     })
+        await route.fulfill({
+            body: JSON.stringify(tags)
+        })
+    })
 
-//     //mock article
-//     // await page.route('https://*/**/api/articles*', async route => {
-//     //     //complete the api call and return result
-//     //     const response = await route.fetch();
-//     //     const responseBody = await response.json()
-
-//     //     responseBody.articles[0].title = "Test title"
-//     //     responseBody.articles[0].description = "Some good description"
-
-//     //     await route. fulfill({
-//     //         body: JSON.stringify(responseBody)
-//     //     })
-//     // })
-
-//     await page.goto('https://conduit.bondaracademy.com/')
-//     await page.waitForTimeout(500) //important to wait to intercept
-// })
+    await page.goto('https://conduit.bondaracademy.com/');
+    await page.getByText('Sign in').click();
+    //await page.getByRole('textbox', {name: "Email"}).fill()
+    //await page.waitForTimeout(500) //important to wait to intercept
+})
 
 test("has title", async ({page}) => {
     //mock article
@@ -38,7 +26,7 @@ test("has title", async ({page}) => {
         responseBody.articles[0].title = "Test title (mock)"
         responseBody.articles[0].description = "Some awesome description (mock)"
 
-        await route. fulfill({
+        await route.fulfill({
             body: JSON.stringify(responseBody)
         })
     })
@@ -61,20 +49,14 @@ test ('delete article', async({page, request}) => {
     const responseBody = await response.json();
     const token = responseBody.user.token;
 
-    await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
+    const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
         data: {"article":{"title":"Article from request","description":"description of article","body":"Lorem ipsum...","tagList":["tag1", "tag2"]}},
         headers: {Authorization: `Token ${token}`}
     })
+
+    expect(articleResponse.status()).toEqual(201);
+
+    await page.getByText('GLobal Feed').click();
+    await page.getByText('Article from request');
+    await page.getByRole('button', {name: "Delete Article"}).first().click()
 })
-
-
-
-// email
-// : 
-// "maxx@google.com"
-// password
-// : 
-// "maxxmaxx"
-// username
-// : 
-// "Maxxxx"
