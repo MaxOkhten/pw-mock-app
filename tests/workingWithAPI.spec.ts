@@ -72,6 +72,13 @@ test("create article ui", async({page}) => {
     await page.getByRole("textbox", {name: "What's this article about?"}).fill("Lorem ipsum");
     await page.getByRole("textbox", {name: "Write your article (in markdown)"}).fill("Lorem ipsum dolor sit amet...");
     await page.getByRole("button", {name: "Publish Article"}).click();
+
+    await expect (page.locator(".article-page h1")).toContainText("Hello");
+    await page.getByText("Home").click();
+    await page.getByText("Global Feed").click();
+
+    await expect(page.locator("app-article-list h1").first()).toContainText("Hello");
+
 });
 
 
