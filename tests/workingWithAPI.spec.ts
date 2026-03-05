@@ -43,7 +43,7 @@ test("has title", async ({page}) => {
 
 })
 
-test ('delete article', async({page, request}) => {
+test ('create article api -> delete article ui', async({page, request}) => {
     const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
         data: {"user":{"email":"maxx@google.com","password":"maxxmaxx"}}
     });
@@ -63,4 +63,19 @@ test ('delete article', async({page, request}) => {
     await page.getByRole('button', {name: "Delete Article"}).first().click()
 
     await expect(page.locator('app-article-list h1').first()).not.toContainText("Article from request");
-})
+});
+
+
+test("create article ui", async({page}) => {
+    await page.getByText("New Article").click();
+    await page.getByRole("textbox", {name: "Article Title"}).fill("Hello");
+    await page.getByRole("textbox", {name: "What's this article about?"}).fill("Lorem ipsum");
+    await page.getByRole("textbox", {name: "Write your article (in markdown)"}).fill("Lorem ipsum dolor sit amet...");
+    await page.getByRole("button", {name: "Publish Article"}).click();
+});
+
+
+
+
+
+
