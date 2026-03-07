@@ -11,10 +11,12 @@ test.beforeEach(async ({page}) => {
     })
 
     await page.goto('https://conduit.bondaracademy.com/');
-    await page.getByText('Sign in').click();
-    await page.getByRole('textbox', {name: "Email"}).fill('maxx@google.com');
-    await page.getByRole('textbox', {name: "Password"}).fill('maxxmaxx');
-    await page.getByRole('button').click()
+    
+    // await page.getByText('Sign in').click();
+    // await page.getByRole('textbox', {name: "Email"}).fill('maxx@google.com');
+    // await page.getByRole('textbox', {name: "Password"}).fill('maxxmaxx');
+    // await page.getByRole('button').click()
+
     //await page.waitForTimeout(500) //important to wait to intercept
 })
 
