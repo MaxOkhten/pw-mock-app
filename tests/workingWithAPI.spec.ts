@@ -17,7 +17,7 @@ test.beforeEach(async ({page}) => {
     // await page.getByRole('textbox', {name: "Password"}).fill('maxxmaxx');
     // await page.getByRole('button').click()
 
-    //await page.waitForTimeout(500) //important to wait to intercept
+    await page.waitForTimeout(500) //important to wait to intercept
 })
 
 test("has title", async ({page}) => {

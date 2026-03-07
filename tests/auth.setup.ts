@@ -1,6 +1,6 @@
 import {test as setup} from "@playwright/test";
 
-const authFile = "../.auth/user.json";
+const authFile = ".auth/user.json";
 
 setup("authentication", async({page}) => {
     await page.goto('https://conduit.bondaracademy.com/');
