@@ -9,7 +9,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "pageObjects-chrome": "npx playwright test workingWithAPI.spec.ts --project=chromium" 
+    "pageObjects-chrome": "npx playwright test workingWithAPI.spec.ts --project=chromium",
+    "pageObjects-firefox": "npx playwright test workingWithAPI.spec.ts --project=firefox",
+    "pageObjects-all-sequential": "npm run pageObjects-chrome && npm run pageObjects-firefox",
+    "pageObjects-all-parallel": "npm run pageObjects-chrome & npm run pageObjects-firefox"  
   },
   "overrides": {
     "stylus": "github:stylus/stylus#0.54.5"
