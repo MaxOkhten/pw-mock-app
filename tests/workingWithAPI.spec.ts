@@ -46,17 +46,9 @@ test("has title", async ({page}) => {
 
 test ('create article api -> delete article ui', async({page, request}) => {
 
-    //get token
-    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {"user":{"email":"maxx@google.com","password":"maxxmaxx"}}
-    });
-    const responseBody = await response.json();
-    const token = responseBody.user.token;
-
     const articleResponse = await request.post('https://conduit-api.bondaracademy.com/api/articles/', {
-        data: {"article":{"title":"Article from request","description":"description of article","body":"Lorem ipsum...","tagList":["tag1", "tag2"]}},
-        headers: {Authorization: `Token ${token}`}
-    })
+        data: {"article":{"title":"Article from request","description":"description of article","body":"Lorem ipsum...","tagList":["tag1", "tag2"]}}
+    });
 
     expect(articleResponse.status()).toEqual(201);
 
@@ -69,13 +61,6 @@ test ('create article api -> delete article ui', async({page, request}) => {
 
 
 test("create article ui", async({page, request}) => {
-
-    //get token
-    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {"user":{"email":"maxx@google.com","password":"maxxmaxx"}}
-    });
-    const responseBody = await response.json();
-    const token = responseBody.user.token;
 
     await page.getByText("New Article").click();
     await page.getByRole("textbox", {name: "Article Title"}).fill("Hello");
@@ -94,9 +79,7 @@ test("create article ui", async({page, request}) => {
     await expect(page.locator("app-article-list h1").first()).toContainText("Hello");
 
     //delete article via api
-    const delArticleResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slug}`, {
-        headers: {Authorization: `Token ${token}`}
-    });
+    const delArticleResponse = await request.delete(`https://conduit-api.bondaracademy.com/api/articles/${slug}`);
     expect(delArticleResponse.status()).toEqual(204);
 
 });
