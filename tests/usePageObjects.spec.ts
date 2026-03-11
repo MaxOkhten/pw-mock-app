@@ -28,6 +28,10 @@ test("Paramethrized methods", async({page}) => {
 
     await pm.navigateTo().formLayoutsPage()
     await pm.onFormLayoutsPage().submitUsingTheGridForm('hello@hello.com', 'P@s$w0rD', 'Option 1')
+
+    //save a screeshot of the current state of the page
+    await page.screenshot({path: "screenshots/formLayoutsPage.png"});
+
     await pm.onFormLayoutsPage().submitInlineForm(randomFullName, randomEmail, true)
     await pm.navigateTo().datepickerPage()
     await pm.onDatePickerPage().selectCommonDatepickerFromToday(5)
