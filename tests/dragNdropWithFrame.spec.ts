@@ -1,7 +1,8 @@
-import {test, expect} from '@playwright/test'
+import {expect} from '@playwright/test';
+import {test} from "../test-options";
 
-test('drag n drop with iframe', async({page}) => {
-    await page.goto('https://www.globalsqa.com/demo-site/draganddrop/')
+test('drag n drop with iframe', async({page, globalsQaURL}) => {
+    await page.goto(globalsQaURL);
 
     await page.getByRole('button', { name: 'Consent' }).click()
 

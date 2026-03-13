@@ -1,4 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { TestOptions } from './test-options';
+
 
 /**
  * Read environment variables from file.
@@ -11,7 +13,7 @@ import { defineConfig, devices } from '@playwright/test';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   //timeout: 40000,
   //globalTimeout: 60000,
 
@@ -34,6 +36,7 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
   baseURL: 'http://localhost:4200',
+  globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
