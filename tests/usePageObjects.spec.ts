@@ -7,7 +7,7 @@ import {faker} from "@faker-js/faker";
 // import {DatepickerPage} from "../page-objects/datePicker"
 
 test.beforeEach(async({page}) => {
-    await page.goto("http://localhost:4200/")
+    await page.goto("/")
 })
 
 test("Go to form page", async({page}) => {
