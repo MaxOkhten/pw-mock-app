@@ -1,7 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options';
-
-require("dotenv").config();
+import 'dotenv/config';
 
 export default defineConfig<TestOptions>({
   timeout: 40000,
