@@ -1,29 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options';
 
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-
 require("dotenv").config();
 
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig<TestOptions>({
-  //timeout: 40000,
-  //globalTimeout: 60000,
+  timeout: 40000,
+  globalTimeout: 60000,
 
   //overwrite timeout for the locator assetion (expect)
-  // expect: {
-  //   timeout: 2000
-  // },
+  expect: {
+    timeout: 2000
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -38,22 +25,22 @@ export default defineConfig<TestOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-  baseURL: 'http://localhost:4200',
-  globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
-  // baseURL: process.env.DEV === '1' ? 'http://localhost:4200'
-  //   : process.env.STAGING === '1' ? 'http://localhost:4202'
-  //   : 'http://localhost:4201',
+    baseURL: 'http://localhost:4200',
+    globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
+    // baseURL: process.env.DEV === '1' ? 'http://localhost:4200'
+    //   : process.env.STAGING === '1' ? 'http://localhost:4202'
+    //   : 'http://localhost:4201',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     extraHTTPHeaders: {
       "Authorization": `Token ${process.env.ACCESS_TOKEN}`
     },
-    //actionTimeout: 5000,
-    //navigationTimeout: 5000
+    actionTimeout: 20000,
+    navigationTimeout: 25000,
 
     video: {
-      mode: "on",
+      mode: "off",
       size: {width: 1920, height: 1080}
     }
   },
@@ -103,6 +90,13 @@ export default defineConfig<TestOptions>({
       use: { ...devices['Desktop Safari'], storageState: '.auth/user.json'},
       dependencies: ['setup']
     },
+    {
+      name: "pageObjectFullScreen",
+      testMatch: "usePageObjsects.spec.ts",
+      use: {
+        viewport: { width: 1920, height: 1080 }
+      }
+    }
 
     /* Test against mobile viewports. */
     // {
