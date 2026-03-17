@@ -1,16 +1,17 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "importHelpers": true,
-    "module": "NodeNext",
+    "module": "es2020",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "ESNext",
+    "target": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
