@@ -1,6 +1,9 @@
 import {test as setup} from "@playwright/test";
-import user from "../.auth/user.json" with { type: 'json' };
 import fs from "fs";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const user = require("../.auth/user.json");
 
 const authFile = ".auth/user.json";
 
@@ -17,4 +20,4 @@ setup("authentication", async({page, request}) => {
 
     process.env["ACCESS_TOKEN"] = token;
 
-})
+});
