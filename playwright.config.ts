@@ -52,6 +52,12 @@ export default defineConfig<TestOptions>({
     },
 
     {
+      name: 'articleSetup',
+      testMatch: 'newArticle.setup.ts',
+      dependencies: ['setup']
+    },
+
+    {
       name: 'dev',
       use: { 
         ...devices['Desktop Chrome'], 
@@ -70,6 +76,19 @@ export default defineConfig<TestOptions>({
       },
 
       dependencies: ['setup']
+    },
+
+    {
+      name: 'regression',
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'},
+      dependencies: ['setup']
+    },
+
+    {
+      name: 'likeCounter',
+      testMatch: "likesCounter.spec.ts",
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'},
+      dependencies: ['articleSetup']
     },
 
     {
