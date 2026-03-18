@@ -54,7 +54,12 @@ export default defineConfig<TestOptions>({
     {
       name: 'articleSetup',
       testMatch: 'newArticle.setup.ts',
-      dependencies: ['setup']
+      dependencies: ['setup'],
+      teardown: "articleCLeanUp"
+    },
+    {
+      name: "articleCLeanUp",
+      testMatch: "articleCLeanUp.setup.ts"
     },
 
     {
