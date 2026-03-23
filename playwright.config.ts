@@ -28,7 +28,7 @@ export default defineConfig<TestOptions>({
     globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop/',
     // baseURL: process.env.DEV === '1' ? 'http://localhost:4200'
     //   : process.env.STAGING === '1' ? 'http://localhost:4202'
-    //   : 'http://localhost:4201',
+    //   : 'http://localhost:4200',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -43,6 +43,9 @@ export default defineConfig<TestOptions>({
       size: {width: 1920, height: 1080}
     }
   },
+
+  globalSetup: require.resolve('./global-setup.ts'),
+  
 
   /* Configure projects for major browsers */
   projects: [
@@ -67,7 +70,7 @@ export default defineConfig<TestOptions>({
       use: { 
         ...devices['Desktop Chrome'], 
         storageState: '.auth/user.json',
-        baseURL: 'http://localhost:4201',
+        baseURL: 'http://localhost:4200',
       },
       dependencies: ['setup']
     },
@@ -85,6 +88,7 @@ export default defineConfig<TestOptions>({
 
     {
       name: 'regression',
+      testIgnore: 'likesCounter.spec.ts',
       use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'},
       dependencies: ['setup']
     },
@@ -94,6 +98,12 @@ export default defineConfig<TestOptions>({
       testMatch: "likesCounter.spec.ts",
       use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'},
       dependencies: ['articleSetup']
+    },
+
+    {
+      name: 'likeCounterGlobal',
+      testMatch: "likesCounterGlobal.spec.ts",
+      use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'}
     },
 
     {
