@@ -44,8 +44,8 @@ export default defineConfig<TestOptions>({
     }
   },
 
-  globalSetup: require.resolve('./global-setup.ts'),
-  
+  globalSetup: './global-setup.ts',
+
 
   /* Configure projects for major browsers */
   projects: [

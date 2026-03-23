@@ -1,6 +1,6 @@
 import {test as setup} from "@playwright/test";
 import fs from "fs";
-import { createRequire } from "module";
+import  createRequire from "module";
 
 const require = createRequire(import.meta.url);
 const user = require("../.auth/user.json");
