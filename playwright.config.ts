@@ -45,6 +45,7 @@ export default defineConfig<TestOptions>({
   },
 
   globalSetup: './global-setup.ts',
+  globalTeardown: './global-teardown.ts',
 
 
   /* Configure projects for major browsers */
