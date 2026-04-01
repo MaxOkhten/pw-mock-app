@@ -1,23 +1,34 @@
 import {test, expect} from "@playwright/test";
 
-test("input fields", async({page}) => {
+test("input fields", async({page}, testInfo) => {
 
         await page.goto("/");
+
+        //check if the test is run in mobile mode
+        if(testInfo.project.name == "mobile") {
+            await page.locator(".sidebar-toggle").click();
+        }
+
         await page.getByText("Forms").click();
         await page.getByText("Form Layouts").click();
 
-        const emailInput = page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', {name: "Email"})
+        //check if the test is run in mobile mode
+        if(testInfo.project.name == "mobile") {
+            await page.locator(".sidebar-toggle").click();
+        }
 
-        await emailInput.fill('hello@gmail.com')
-        await emailInput.clear()
+        const emailInput = page.locator('nb-card', {hasText: "Using the Grid"}).getByRole('textbox', {name: "Email"});
+
+        await emailInput.fill('hello@gmail.com');
+        await emailInput.clear();
 
         //simulate keystrokes
-        await emailInput.pressSequentially('hello2@gmail.com', {delay: 200})
+        await emailInput.pressSequentially('hello2@gmail.com', {delay: 200});
 
         //generic assetions - checks any value without auto-waiting
-        const inputValue = await emailInput.inputValue()
-        expect(inputValue).toEqual('hello2@gmail.com') 
+        const inputValue = await emailInput.inputValue();
+        expect(inputValue).toEqual('hello2@gmail.com');
 
         //locator assertions
-        await expect(emailInput).toHaveValue('hello2@gmail.com')
+        await expect(emailInput).toHaveValue('hello2@gmail.com');
     });
