@@ -53,4 +53,27 @@ test.describe("Auth › Login form validation", () => {
     await expect(page.getByText("Email is required!")).toBeHidden();
   });
 
+  test("rejects password of length 3", async ({ page }) => {
+    const password = page.getByLabel("Password:");
+
+    await password.fill("abc");
+    await password.blur();
+
+    await expect(
+      page.getByText("Password should contain from 4 to 50 characters"),
+    ).toBeVisible();
+  });
+
+  test("accepts password of length 4 and enables submit", async ({ page }) => {
+    const email = page.getByLabel("Email address:");
+    const password = page.getByLabel("Password:");
+    const submitButton = page.getByRole("button", { name: "Log In" });
+
+    await email.fill("user@test.com");
+    await password.fill("1234");
+    await password.blur();
+
+    await expect(page.getByText("Password should contain")).toBeHidden();
+    await expect(submitButton).toBeEnabled();
+  });
 });
