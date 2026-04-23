@@ -25,4 +25,32 @@ test.describe("Auth › Login form validation", () => {
     await expect(page.getByText("Password is required!")).toBeVisible();
   });
   
+  test("rejects a malformed email without @", async ({ page }) => {
+    const email = page.getByLabel("Email address:");
+
+    await email.fill("not-an-email");
+    await email.blur();
+
+    await expect(page.getByText("Email should be the real one!")).toBeVisible();
+  });
+
+  test("rejects a malformed email without a domain part", async ({ page }) => {
+    const email = page.getByLabel("Email address:");
+
+    await email.fill("user@");
+    await email.blur();
+
+    await expect(page.getByText("Email should be the real one!")).toBeVisible();
+  });
+
+  test("accepts a well-formed email", async ({ page }) => {
+    const email = page.getByLabel("Email address:");
+
+    await email.fill("user@test.com");
+    await email.blur();
+
+    await expect(page.getByText("Email should be the real one!")).toBeHidden();
+    await expect(page.getByText("Email is required!")).toBeHidden();
+  });
+
 });
