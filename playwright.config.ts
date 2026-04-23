@@ -110,6 +110,17 @@ export default defineConfig<TestOptions>({
     },
 
     {
+      //isolated project to run fully offline without hitting external services
+      name: 'ui',
+      testMatch: 'ui/**/*.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:4200',
+        extraHTTPHeaders: {},
+      },
+    },
+
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: '.auth/user.json'},
       dependencies: ['setup']
