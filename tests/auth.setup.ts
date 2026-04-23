@@ -1,11 +1,8 @@
 import {test as setup} from "@playwright/test";
 import fs from "fs";
-import  createRequire from "module";
-
-const require = createRequire(import.meta.url);
-const user = require("../.auth/user.json");
 
 const authFile = ".auth/user.json";
+const user = JSON.parse(fs.readFileSync(authFile, "utf-8"));
 
 setup("authentication", async({page, request}) => {
     //get token

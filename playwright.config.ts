@@ -44,8 +44,10 @@ export default defineConfig<TestOptions>({
     }
   },
 
-  globalSetup: './global-setup.ts',
-  globalTeardown: './global-teardown.ts',
+  //globalSetup: './global-setup.ts',
+  //globalTeardown: './global-teardown.ts',
+  // Temporarily disabled during the cleanup phase.
+  // The original globalSetup/globalTeardown hit external services
 
 
   /* Configure projects for major browsers */

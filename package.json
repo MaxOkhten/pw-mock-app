@@ -1,10 +1,10 @@
 {
-  "name": "ngx-admin",
+  "name": "pw-demo-app",
   "version": "10.0.0",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bondar-artem/pw-practice-app.git"
+    "url": "git+https://github.com/MaxOkhten/pw-demo-app.git"
   },
   "type": "module",
   "scripts": {
