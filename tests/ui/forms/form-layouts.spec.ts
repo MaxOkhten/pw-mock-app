@@ -36,3 +36,24 @@ test.describe("Forms > Form Layouts > Inline form", () => {
     await expect.soft(formLayouts.inlineRememberMeCheckbox).not.toBeChecked();
   });
 });
+
+//grid form tests
+test.describe("Forms > Form Layouts > Using the Grid", () => {
+  let formLayouts: FormLayoutsPage;
+
+  test.beforeEach(async ({ page }) => {
+    formLayouts = new FormLayoutsPage(page);
+    await formLayouts.goto();
+  });
+
+  test("fill grid form with email and password only", async () => {
+    const email = faker.internet.email().toLowerCase();
+    const password = faker.internet.password({ length: 12 });
+
+    await formLayouts.fillGridForm({ email, password });
+
+    await expect.soft(formLayouts.gridEmailInput).toHaveValue(email);
+    await expect.soft(formLayouts.gridPasswordInput).toHaveValue(password);
+    await expect.soft(formLayouts.gridSubmitButton).toBeEnabled();
+  });
+});

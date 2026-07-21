@@ -6,15 +6,24 @@ import { Page, Locator, expect } from "@playwright/test";
 export class FormLayoutsPage {
   readonly page: Page;
 
+  //Inline form card
   readonly inlineFormCard: Locator;
   readonly inlineNameInput: Locator;
   readonly inlineEmailInput: Locator;
   readonly inlineRememberMeCheckbox: Locator;
   readonly inlineSubmitButton: Locator;
 
+  //Using the Grid form card
+  readonly gridFormCard: Locator;
+  readonly gridEmailInput: Locator;
+  readonly gridPasswordInput: Locator;
+  readonly gridRadioGroup: Locator;
+  readonly gridSubmitButton: Locator;
+
   constructor(page: Page) {
     this.page = page;
 
+    //inline form card
     this.inlineFormCard = page
       .locator("nb-card")
       .filter({ hasText: "Inline form" });
@@ -30,6 +39,18 @@ export class FormLayoutsPage {
     });
     this.inlineSubmitButton = this.inlineFormCard.getByRole("button", {
       name: "Submit",
+    });
+
+    //using the grid form card
+    this.gridFormCard = page
+      .locator("nb-card")
+      .filter({ hasText: "Using the Grid" });
+
+    this.gridEmailInput = this.gridFormCard.getByLabel("Email");
+    this.gridPasswordInput = this.gridFormCard.getByLabel("Password");
+    this.gridRadioGroup = this.gridFormCard.locator("nb-radio-group");
+    this.gridSubmitButton = this.gridFormCard.getByRole("button", {
+      name: "Sign in",
     });
   }
 
@@ -53,6 +74,24 @@ export class FormLayoutsPage {
 
   async submitInlineForm() {
     await this.inlineSubmitButton.click();
+  }
+
+  async selectGridRadio(optionName: string) {
+    const radio = this.gridRadioGroup.getByRole("radio", { name: optionName });
+    await radio.check({ force: true });
+  }
+
+  async fillGridForm(data: {
+    email: string;
+    password: string;
+    radioOption?: string;
+  }) {
+    await this.gridEmailInput.fill(data.email);
+    await this.gridPasswordInput.fill(data.password);
+
+    if (data.radioOption) {
+      await this.selectGridRadio(data.radioOption);
+    }
   }
 }
 
