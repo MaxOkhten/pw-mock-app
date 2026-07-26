@@ -28,3 +28,7 @@ Run: `npm start`
 `npx playwright test --trace on` - run with testing evidences
 
 `npx playwright test --debug` - run in debug mode
+
+### Allure
+
+`npm install -D allure-playwright --legacy-peer-deps` - ingnore version conflict
