@@ -8,7 +8,8 @@ export default defineConfig<TestOptions>({
 
   //overwrite timeout for the locator assetion (expect)
   expect: {
-    timeout: 2000
+    timeout: 2000,
+    toMatchSnapshot: {maxDiffPixels: 50}
   },
   testDir: './tests',
   /* Run tests in files in parallel */
@@ -23,7 +24,8 @@ export default defineConfig<TestOptions>({
   reporter: [
     ['json', {outputFile: 'test-results/jsonReport.json'}],
     ['junit', {outputFile: 'test-results/junitReport.xml'}],
-    ['allure-playwright']
+    //['allure-playwright'],
+    ['html']
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

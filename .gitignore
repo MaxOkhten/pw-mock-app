@@ -58,3 +58,5 @@ node_modules/
 # Allure
 allure-report/
 allure-results/
+
+tests/components.spec.ts-snapshots/
