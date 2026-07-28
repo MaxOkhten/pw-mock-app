@@ -4,7 +4,7 @@ import 'dotenv/config';
 
 export default defineConfig<TestOptions>({
   timeout: 40000,
-  globalTimeout: 60000,
+  //globalTimeout: 60000,
 
   //overwrite timeout for the locator assetion (expect)
   expect: {
@@ -185,4 +185,10 @@ export default defineConfig<TestOptions>({
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+
+
+  webServer: {
+    command: 'npm run start',
+    url: 'http://localhost:4200'
+  }
 });
