@@ -32,3 +32,9 @@ Run: `npm start`
 ### Allure
 
 `npm install -D allure-playwright --legacy-peer-deps` - ingnore version conflict
+
+### Docker
+
+`docker run -it pw-app` - run container
+`npm run pageObjects-chrome` - run page objects chrome
+`docker-compose up --build` - build and run container
